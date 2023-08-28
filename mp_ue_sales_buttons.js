@@ -64,6 +64,7 @@ function beforeUserLoad(type, form) {
         var userRole = parseInt(nlapiGetRole());
         var cancellation_reason = nlapiGetFieldValue('custentity_service_cancellation_reason');
         var new_customer_id = nlapiGetFieldValue('custentity_new_customer');
+        var cc_payment = nlapiGetFieldValue('custentity_portal_cc_payment');
         var salesRecordID = null;
 
         nlapiLogExecution('AUDIT', 'status', status);
@@ -77,6 +78,7 @@ function beforeUserLoad(type, form) {
             form.addButton('custpage_update_customer', 'Update Customer', getButtonScript('update_customer', 'null', customerRecordId));
 
 
+           
             //any SalesRole can obtain a referral
             if (isInArray(userRole, salesRoles)) {
                 var link = '/app/common/entity/custjob.nl?pf=CUSTENTITY_REF_REFERRER&pr=-2&stage=lead&pi=' + nlapiGetFieldValue('id');
@@ -243,6 +245,15 @@ function beforeUserLoad(type, form) {
                 // form.addButton('custpage_onboarding', 'Customer On Boarding', getButtonScript('customer_on_boarding', null, customerRecordId));
             }
 
+            if (isInArray(userRole, systemAdmin)) {
+                if (cc_payment == 1) {
+                    form.addButton('custpage_activate_cc', 'Deactivate Portal CC Payment', getButtonScript('activate_cc', 'null', customerRecordId));
+                } else {
+                    form.addButton('custpage_activate_cc', 'Activate Portal CC Payment', getButtonScript('activate_cc', 'null', customerRecordId));
+                }
+                
+            }
+
             if (status == 13 || status == 32) {
                 form.addButton('custpage_prod_pricing', 'Product Pricing', getButtonScript('customer_prod_pricing', null, customerRecordId));
                 form.addButton('custpage_change', 'Service Change Notification', getButtonScript('customer_change', null, customerRecordId));
@@ -278,9 +289,9 @@ function beforeUserLoad(type, form) {
             }
             //if not SignStatus
         } else {
-            if (isInArray(userRole, systemAdmin)) {
-                form.addButton('custpage_send_email', 'Send Email', getButtonScript('customer_send_email', 'null', customerRecordId));
-            }
+            // if (isInArray(userRole, systemAdmin)) {
+            form.addButton('custpage_send_email', 'Send Email', getButtonScript('customer_send_email', 'null', customerRecordId));
+            // }
             // if user is a BDM or Sales Admin
             if (isInArray(userRole, salesRoles) || isInArray(userRole, salesAdmin)) {
                 // alert(23);
@@ -501,7 +512,7 @@ function getButtonScript(type, salesrecordid, customerrecordid) {
         rtnScript = "window.location='" + url + "'";
     }
     if (type == 'xcallcentre') {
-        var url = nlapiResolveURL('SUITELET', 'customscript_sl_finalise_page', 'customdeploy_sl_finalise_page');
+        var url = nlapiResolveURL('SUITELET', 'customscript_sl_finalise_page_tn_v2_vue', 'customdeploy_sl_finalise_page_tn_v2_vue');
         url += '&callcenter=T&recid=' + customerrecordid + '&sales_record_id=' + salesrecordid;
         rtnScript = "window.location='" + url + "'";
     }
@@ -533,7 +544,7 @@ function getButtonScript(type, salesrecordid, customerrecordid) {
     }
 
     if (type == 'finalisexsale') {
-        var url = nlapiResolveURL('SUITELET', 'customscript_sl_finalise_page', 'customdeploy_sl_finalise_page');
+        var url = nlapiResolveURL('SUITELET', 'customscript_sl_finalise_page_tn_v2_vue', 'customdeploy_sl_finalise_page_tn_v2_vue');
         url += '&recid=' + customerrecordid + '&sales_record_id=' + salesrecordid;
         rtnScript = "window.location='" + url + "'";
     }
@@ -601,6 +612,11 @@ function getButtonScript(type, salesrecordid, customerrecordid) {
         params = JSON.stringify(params);
         var url = nlapiResolveURL('SUITELET', 'customscript_sl_lead_capture_tn_v2_vue', 'customdeploy_sl_lead_capture_tn_v2_vue');
         url += '&custid=' + customerrecordid;
+        rtnScript = "window.location='" + url + "'";
+    }
+    if (type == 'activate_cc') {
+        var url = nlapiResolveURL('SUITELET', 'customscript_sl2_cc_activate_cust_resync', 'customdeploy1');
+        url += '&customerid=' + customerrecordid;
         rtnScript = "window.location='" + url + "'";
     }
     if (type == 'customer_coe') {
