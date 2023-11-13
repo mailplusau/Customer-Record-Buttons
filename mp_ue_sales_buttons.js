@@ -161,6 +161,9 @@ function beforeUserLoad(type, form) {
                         // if (status == 13) {
                         form.addButton('custpage_customer_create_sales_record', 'Create Sales Record', getButtonScript('cr8custsalesrec', null, customerRecordId));
                         // }
+                        if (userRole == 3) {
+                            form.addButton('custpage_customer_create_sales_record_new', 'Internal Qualification', getButtonScript('create_sales_record_new', null, customerRecordId));
+                        }
 
                     } else if (res_sr.length > 1) {
 
@@ -345,6 +348,9 @@ function beforeUserLoad(type, form) {
                 if (results == null) {
 
                     form.addButton('custpage_createsalesrecord', 'Create Sales Record', getButtonScript('cr8salesrec', null, customerRecordId));
+                    if (userRole == 3) {
+                        form.addButton('custpage_createsalesrecord_new', 'Internal Qualification', getButtonScript('create_sales_record_new', null, customerRecordId));
+                    }
 
                 } else if (results.length > 1) {
 
@@ -525,6 +531,12 @@ function getButtonScript(type, salesrecordid, customerrecordid) {
 
     if (type == 'cr8custsalesrec') {
         var url = nlapiResolveURL('SUITELET', 'customscript_sl_sales_campaign_popup', 'customdeploy_sl_sales_campaign_popup');
+        url += '&recid=' + customerrecordid + '&button=T&cust=T';
+        rtnScript = "window.location='" + url + "'";
+    }
+
+    if (type == 'create_sales_record_new') {
+        var url = nlapiResolveURL('SUITELET', 'customscript_sl_qualification_page_tn_v2', 'customdeploy_sl_qualification_page_tn_d1');
         url += '&recid=' + customerrecordid + '&button=T&cust=T';
         rtnScript = "window.location='" + url + "'";
     }
