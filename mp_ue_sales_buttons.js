@@ -78,7 +78,7 @@ function beforeUserLoad(type, form) {
             form.addButton('custpage_update_customer', 'Update Customer', getButtonScript('update_customer', 'null', customerRecordId));
 
 
-           
+
             //any SalesRole can obtain a referral
             if (isInArray(userRole, salesRoles)) {
                 var link = '/app/common/entity/custjob.nl?pf=CUSTENTITY_REF_REFERRER&pr=-2&stage=lead&pi=' + nlapiGetFieldValue('id');
@@ -249,16 +249,25 @@ function beforeUserLoad(type, form) {
             }
 
             if (isInArray(userRole, systemAdmin)) {
-                if (cc_payment == 1) {
-                    form.addButton('custpage_activate_cc', 'Deactivate Portal CC Payment', getButtonScript('activate_cc', 'null', customerRecordId));
-                } else {
-                    form.addButton('custpage_activate_cc', 'Activate Portal CC Payment', getButtonScript('activate_cc', 'null', customerRecordId));
+                // if (cc_payment == 1) {
+                //     form.addButton('custpage_activate_cc', 'Deactivate Portal CC Payment', getButtonScript('activate_cc', 'null', customerRecordId));
+                // } else {
+                //     form.addButton('custpage_activate_cc', 'Activate Portal CC Payment', getButtonScript('activate_cc', 'null', customerRecordId));
+                // }
+
+                if (status == 13 || status == 32) {
+                    form.addButton('custpage_prod_pricing', 'Create Product Pricing', getButtonScript('customer_prod_pricing', null, customerRecordId));
+
+                    if (userRole == 3) {
+                        form.addButton('custpage_sync_prod_pricing', 'Sync Product Pricing', getButtonScript('customer_sync_prod_pricing', null, customerRecordId));
+                    }
+
                 }
-                
+
             }
 
             if (status == 13 || status == 32) {
-                form.addButton('custpage_prod_pricing', 'Product Pricing', getButtonScript('customer_prod_pricing', null, customerRecordId));
+
                 form.addButton('custpage_change', 'Service Change Notification', getButtonScript('customer_change', null, customerRecordId));
                 if (isInArray(userRole, systemAdmin)) {
                     form.addButton('custpage_cancellation', 'Cancel Customer', getButtonScript('customer_cancellation', null, customerRecordId));
@@ -348,9 +357,9 @@ function beforeUserLoad(type, form) {
                 if (results == null) {
 
                     form.addButton('custpage_createsalesrecord', 'Create Sales Record', getButtonScript('cr8salesrec', null, customerRecordId));
-                    if (userRole == 3) {
-                        form.addButton('custpage_createsalesrecord_new', 'Internal Qualification', getButtonScript('create_sales_record_new', null, customerRecordId));
-                    }
+                    // if (userRole == 3) {
+                    form.addButton('custpage_createsalesrecord_new', 'Internal Qualification', getButtonScript('create_sales_record_new', null, customerRecordId));
+                    // }
 
                 } else if (results.length > 1) {
 
@@ -379,6 +388,10 @@ function beforeUserLoad(type, form) {
 
 
                     }
+
+                    // if (userRole == 3) {
+                    form.addButton('custpage_createsalesrecord_new', 'Internal Qualification', getButtonScript('create_sales_record_new', null, customerRecordId));
+                    // }
                     form.addButton('custpage_callcentre', 'Call Centre', getButtonScript('xcallcentre', salesrecordid, customerRecordId));
                     // form.addButton('custpage_unity4', 'Start Unity4 Trial', getButtonScript('unity4', salesrecordid, customerRecordId));
 
@@ -646,6 +659,35 @@ function getButtonScript(type, salesrecordid, customerrecordid) {
         url += '&customerid=' + customerrecordid;
         rtnScript = "window.location='" + url + "'";
     }
+
+    // if (type == 'customer_sync_prod_pricing') {
+
+    //     var customer_record = nlapiLoadRecord('customer', customerrecordid);
+    //     var zee_id = customer_record.getFieldValue('partner');
+
+    //     var zee_record = nlapiLoadRecord('partner', zee_id);
+    //     var zee_premium_activated = zee_record.getFieldValue('custentity_zee_mp_str_activated');
+
+    //     customer_record.setFieldValue('custentity_mp_std_activate', 1);
+    //     if (zee_premium_activated == 1) {
+    //         // Activate MP Premium at Customer record only if MP Premium activated at Franchisee Record
+    //         customer_record.setFieldValue('custentity_mp_premium_activated', 1);
+    //     }
+    //     customer_record.setFieldValue('custentity_mpex_small_satchel', 1); //MP Express Activated
+    //     var customer_record_id = nlapiSubmitRecord(customer_record);
+
+    //     var params = {
+    //         custscript_prod_pricing_zee_cust_list: zee_id,
+    //         custscript_prod_pricing_sync_cust_id: customerrecordid,
+    //     };
+
+    //     var status = nlapiScheduleScript('customscript_ss_bulk_sync_prod_pricing', 'customdeploy2', params);
+
+    //     nlapiLogExecution("DEBUG", "Prod Pricing Sync Status", status);
+
+    //     rtnScript = "window.location='https://1048144.app.netsuite.com/app/common/entity/custjob.nl?id=" + customerrecordid + "'";
+    // }
+
     if (type == 'multisite_link') {
         var url = nlapiResolveURL('SUITELET', 'customscript_sl_link_multisite', 'customdeploy_sl_link_multisite');
         url += '&custid=' + customerrecordid;
