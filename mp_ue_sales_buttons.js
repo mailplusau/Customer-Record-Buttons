@@ -34,7 +34,7 @@ function beforeUserLoad(type, form) {
         //1022 - Finance Manager
         //1015 - CFO
         //1031 - MAAP Manager
-        var salesRoles = [ /*1003*/, /*1004*/, 1005, 1007, 1032, 1003];
+        var salesRoles = [ /*1003*/, /*1004*/, 1005, 1007, 1032, 1003, 1062, 1063, 1064];
         //1003 - S&M Administrator
         //1004 - S&M Director
         //1005 - BDM
