@@ -168,7 +168,7 @@ function beforeUserLoad(type, form) {
                     } else if (res_sr.length > 1) {
 
                         /*throw nlapiCreateError('S0001','Multiple Active Sales Record','suppressNotification');*/
-                        throw (nlapiCreateError('Multiple active Sales Records', 'Record has two or more active sales record. \nPlease notify your system administrator to allow you to interact with this record.'));
+                        throw (nlapiCreateError('Multiple active Sales Records', 'Record has two or more active sales record. \n    notify your system administrator to allow you to interact with this record.'));
 
                     } else {
 
