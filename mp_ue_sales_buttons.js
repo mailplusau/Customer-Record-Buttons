@@ -74,7 +74,9 @@ function beforeUserLoad(type, form) {
         // customer status is signStatus
         if (isInArray(status, signStatus)) {
 
-            form.addButton('custpage_send_email', 'Send Email', getButtonScript('customer_send_email', 'null', customerRecordId));
+            if (isInArray(userRole, systemAdmin)) {
+                form.addButton('custpage_send_email', 'Send Email', getButtonScript('customer_send_email', 'null', customerRecordId));
+            }
             form.addButton('custpage_update_customer', 'Update Customer', getButtonScript('update_customer', 'null', customerRecordId));
 
 
@@ -168,7 +170,7 @@ function beforeUserLoad(type, form) {
                     } else if (res_sr.length > 1) {
 
                         /*throw nlapiCreateError('S0001','Multiple Active Sales Record','suppressNotification');*/
-                        throw (nlapiCreateError('Multiple active Sales Records', 'Record has two or more active sales record. \n    notify your system administrator to allow you to interact with this record.'));
+                        throw (nlapiCreateError('Multiple active Sales Records', 'Record has two or more active sales record. \nPlease notify your system administrator to allow you to interact with this record.'));
 
                     } else {
 
@@ -301,9 +303,9 @@ function beforeUserLoad(type, form) {
             }
             //if not SignStatus
         } else {
-            // if (isInArray(userRole, systemAdmin)) {
-            form.addButton('custpage_send_email', 'Send Email', getButtonScript('customer_send_email', 'null', customerRecordId));
-            // }
+            if (isInArray(userRole, systemAdmin)) {
+                form.addButton('custpage_send_email', 'Send Email', getButtonScript('customer_send_email', 'null', customerRecordId));
+            }
             // if user is a BDM or Sales Admin
             if (isInArray(userRole, salesRoles) || isInArray(userRole, salesAdmin)) {
                 // alert(23);
