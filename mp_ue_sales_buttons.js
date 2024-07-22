@@ -76,6 +76,9 @@ function beforeUserLoad(type, form) {
 
             if (isInArray(userRole, systemAdmin)) {
                 form.addButton('custpage_send_email', 'Send Email', getButtonScript('customer_send_email', 'null', customerRecordId));
+                if (!isNullorEmpty(customerRecord.getFieldValue('custentity_display_name'))) {
+                    form.addButton('custpage_rta_sync_display_name', 'Sync RTA Display Name', getButtonScript('rta_sync_display_name', 'null', customerRecordId));
+                }
             }
             form.addButton('custpage_update_customer', 'Update Customer', getButtonScript('update_customer', 'null', customerRecordId));
 
@@ -617,6 +620,12 @@ function getButtonScript(type, salesrecordid, customerrecordid) {
         // params = JSON.stringify(params);
         var url = nlapiResolveURL('SUITELET', 'customscript_sl_send_email_module', 'customdeploy_sl_send_email_module');
         url += '&custid=' + customerrecordid;
+        rtnScript = "window.location='" + url + "'";
+    }
+    //Button: Sync RTA Display Name
+    if (type == 'rta_sync_display_name') {
+        var url = nlapiResolveURL('SUITELET', 'customscript_sl2_update_cust_name', 'customdeploy1');
+        url += '&customerInternalId=' + customerrecordid;
         rtnScript = "window.location='" + url + "'";
     }
     if (type == 'customer_edit') {
