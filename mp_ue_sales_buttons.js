@@ -537,7 +537,7 @@ function getButtonScript(type, salesrecordid, customerrecordid) {
     }
     if (type == 'xcallcentre') {
         var url = nlapiResolveURL('SUITELET', 'customscript_sl_update_customer_tn_vue3', 'customdeploy_sl_update_customer_tn_vue3');
-        url += '&callCenter=T&xcallcentre=' + customerrecordid + '&salesRecordId=' + salesrecordid;
+        url += '&callCenter=T&customerId=' + customerrecordid + '&salesRecordId=' + salesrecordid;
         rtnScript = "window.location='" + url + "'";
     }
     //script cr8salesrec - creates sales record for sales activities
