@@ -646,8 +646,8 @@ function getButtonScript(type, salesrecordid, customerrecordid) {
             deployid: null
         };
         params = JSON.stringify(params);
-        var url = nlapiResolveURL('SUITELET', 'customscript_sl_lead_capture_tn_v2_vue', 'customdeploy_sl_lead_capture_tn_v2_vue');
-        url += '&custid=' + customerrecordid;
+        var url = nlapiResolveURL('SUITELET', 'customscript_sl_update_customer_tn_vue3', 'customdeploy_sl_update_customer_tn_vue3');
+        url += '&customerId=' + customerrecordid;
         rtnScript = "window.location='" + url + "'";
     }
     if (type == 'activate_cc') {
