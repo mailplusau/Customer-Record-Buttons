@@ -317,9 +317,9 @@ function beforeUserLoad(type, form) {
                 var filters = [];
                 filters[0] = new nlobjSearchFilter('custrecord_sales_completed', null, 'is', 'F'); // not completed 
                 filters[1] = new nlobjSearchFilter('custrecord_salescampaign_recordtype', 'custrecord_sales_campaign', 'is', [1, 2]); //campaignrecordtype is 'Prospects' 
-                filters[2] = new nlobjSearchFilter('custrecord_sales_inuse', null, 'isnot', 'T'); // not in use
-                filters[3] = new nlobjSearchFilter('custrecord_sales_customer', null, 'is', customerRecordId); // belongs to current customer
-                filters[4] = new nlobjSearchFilter('custrecord_sales_deactivated', null, 'is', 'F'); // is not deactivated sales records
+                // filters[2] = new nlobjSearchFilter('custrecord_sales_inuse', null, 'isnot', 'T'); // not in use
+                filters[2] = new nlobjSearchFilter('custrecord_sales_customer', null, 'is', customerRecordId); // belongs to current customer
+                filters[3] = new nlobjSearchFilter('custrecord_sales_deactivated', null, 'is', 'F'); // is not deactivated sales records
 
                 var col = [];
                 col[0] = new nlobjSearchColumn('internalId'); //internalid
