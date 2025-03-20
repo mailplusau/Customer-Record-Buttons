@@ -41,6 +41,8 @@ function beforeUserLoad(type, form) {
         //1007 - Operations
         var salesAdmin = [1003, 1004];
 
+        var leadGenTeam = [1063] //1063 - Mail Plus Lead Generation
+
         var systemAdmin = [3, 1032];
 
         var today = new Date();
@@ -62,6 +64,7 @@ function beforeUserLoad(type, form) {
         var maapnumber = nlapiGetFieldValue('custentity_maap_bankacctno');
         var startDate = nlapiGetFieldValue('startdate');
         var userRole = parseInt(nlapiGetRole());
+        var userId = parseInt(nlapiGetUser());
         var cancellation_reason = nlapiGetFieldValue('custentity_service_cancellation_reason');
         var new_customer_id = nlapiGetFieldValue('custentity_new_customer');
         var cc_payment = nlapiGetFieldValue('custentity_portal_cc_payment');
@@ -309,6 +312,10 @@ function beforeUserLoad(type, form) {
             if (isInArray(userRole, systemAdmin)) {
                 form.addButton('custpage_send_email', 'Send Email', getButtonScript('customer_send_email', 'null', customerRecordId));
             }
+            if ((isInArray(userRole, salesRoles) || isInArray(userRole, salesAdmin) || isInArray(userRole, systemAdmin) || isInArray(userRole, leadGenTeam)) && status != 59 && status != 22 && status != 64) {
+                form.addButton('custpage_mark_duplicate_lost', 'Mark Lost - Duplicate Lead', getButtonScript('customer_mark_duplicate_lost', 'null', customerRecordId));
+            }
+
             // if user is a BDM or Sales Admin
             if (isInArray(userRole, salesRoles) || isInArray(userRole, salesAdmin)) {
                 // alert(23);
@@ -620,6 +627,11 @@ function getButtonScript(type, salesrecordid, customerrecordid) {
         // params = JSON.stringify(params);
         var url = nlapiResolveURL('SUITELET', 'customscript_sl_send_email_module', 'customdeploy_sl_send_email_module');
         url += '&custid=' + customerrecordid;
+        rtnScript = "window.location='" + url + "'";
+    }
+    if (type == 'customer_mark_duplicate_lost') {
+        var url = nlapiResolveURL('SUITELET', 'customscript_sl2_lost_duplicate_lead', 'customdeploy1');
+        url += '&customerInternalId=' + customerrecordid;
         rtnScript = "window.location='" + url + "'";
     }
     //Button: Sync RTA Display Name
