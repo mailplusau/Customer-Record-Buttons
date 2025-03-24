@@ -43,7 +43,9 @@ define(['N/runtime', 'N/http', 'N/https', 'N/log', 'N/url', 'N/email',
             fieldId: "custentity_service_cancelled_on",
             value: getDateStoreNS(),
         });
-        customerInternalId = customerRecord.save();
+        customerInternalId = customerRecord.save({
+            ignoreMandatoryFields: true
+        });
 
         redirect.toRecord({
             type: record.Type.CUSTOMER,
