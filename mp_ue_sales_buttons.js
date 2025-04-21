@@ -404,12 +404,12 @@ function beforeUserLoad(type, form) {
                     // if (userRole == 3) {
                     form.addButton('custpage_createsalesrecord_new', 'Internal Qualification', getButtonScript('create_sales_record_new', null, customerRecordId));
                     // }
-                    form.addButton('custpage_callcentre', 'Call Centre', getButtonScript('xcallcentre', salesrecordid, customerRecordId));
+                    // form.addButton('custpage_callcentre', 'Call Centre', getButtonScript('xcallcentre', salesrecordid, customerRecordId));
                     // form.addButton('custpage_unity4', 'Start Unity4 Trial', getButtonScript('unity4', salesrecordid, customerRecordId));
 
                     // if lastassigned = current user, empty, not active Call Centre button will be accessible
                     if ((lastassigned == nlapiGetUser()) || isEmpty(lastassigned) || (isInArray(lastassigned, nonActiveSalesRep))) {
-
+                        form.addButton('custpage_callcentre', 'Call Centre', getButtonScript('xcallcentre', salesrecordid, customerRecordId));
                         // if quote/form is previously sent Finalise Sale button will also be available
                         // if campaign is Inbound - No Pitch - Commencement Form Receipts
                         if (quotesent == 'T' | formsent == 'T' | status == 32 | campaign == 54 | campaign == 57 | campaign == 35 | campaign == 60 | campaign == 62 | campaign == 68 | campaign == 67 | campaign == 66) {
