@@ -370,7 +370,7 @@ function beforeUserLoad(type, form) {
 
                     form.addButton('custpage_createsalesrecord', 'Create Sales Record', getButtonScript('cr8salesrec', null, customerRecordId));
                     // if (userRole == 3) {
-                    form.addButton('custpage_createsalesrecord_new', 'Internal Qualification', getButtonScript('create_sales_record_new', null, customerRecordId));
+                    // form.addButton('custpage_createsalesrecord_new', 'Internal Qualification', getButtonScript('create_sales_record_new', null, customerRecordId));
                     // }
 
                 } else if (results.length > 1) {
@@ -402,7 +402,10 @@ function beforeUserLoad(type, form) {
                     }
 
                     // if (userRole == 3) {
-                    form.addButton('custpage_createsalesrecord_new', 'Internal Qualification', getButtonScript('create_sales_record_new', null, customerRecordId));
+                    // form.addButton('custpage_createsalesrecord_new', 'Internal Qualification', getButtonScript('create_sales_record_new', null, customerRecordId));
+                    if (isInArray(userRole, systemAdmin)) {
+                        form.addButton('custpage_callcentre', 'Call Centre', getButtonScript('xcallcentre', salesrecordid, customerRecordId));
+                    }
                     // }
                     // form.addButton('custpage_callcentre', 'Call Centre', getButtonScript('xcallcentre', salesrecordid, customerRecordId));
                     // form.addButton('custpage_unity4', 'Start Unity4 Trial', getButtonScript('unity4', salesrecordid, customerRecordId));
@@ -426,6 +429,7 @@ function beforeUserLoad(type, form) {
 
                         // if last assigned is not current user and exclusive period has lapsed
                     } else {
+                        form.addButton('custpage_customer_reassign_sales_record', 'Reassign Sales Record', getButtonScript('reassignsalesrecord', salesrecordid, customerRecordId));
                         // if sales admin role
                         if (isInArray(userRole, systemAdmin)) {
                             // form.addButton('custpage_sign', 'Finalise Sale', getButtonScript('commencement', salesrecordid, customerRecordId));
@@ -551,6 +555,11 @@ function getButtonScript(type, salesrecordid, customerrecordid) {
     if (type == 'cr8salesrec') {
         var url = nlapiResolveURL('SUITELET', 'customscript_sl_sales_campaign_popup', 'customdeploy_sl_sales_campaign_popup');
         url += '&recid=' + customerrecordid + '&button=T';
+        rtnScript = "window.location='" + url + "'";
+    }
+    if (type == 'reassignsalesrecord') {
+        var url = nlapiResolveURL('SUITELET', 'customscript_sl2_create_sales_record', 'customdeploy1');
+        url += '&callCenter=T&customerId=' + customerrecordid + '&salesRecordId=' + salesrecordid;
         rtnScript = "window.location='" + url + "'";
     }
 
