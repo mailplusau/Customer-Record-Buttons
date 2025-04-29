@@ -31,6 +31,20 @@ define(['N/runtime', 'N/http', 'N/https', 'N/log', 'N/url', 'N/email',
             fieldId: "custentity_service_cancellation_reason",
             value: 37,
         });
+
+        customerRecord.setValue({
+            fieldId: "custentity_service_cancellation_theme",
+            value: 83, //Existing Customer or Lead
+        });
+        customerRecord.setValue({
+            fieldId: "custentity_service_cancellation_what",
+            value: 84, //Duplicate Lead
+        });
+        customerRecord.setValue({
+            fieldId: "custentity_service_cancellation_why",
+            value: 125, //Prospect made more than 1 enquiry
+        });
+
         customerRecord.setValue({
             fieldId: "custentity_service_cancelled_by",
             value: userId,
