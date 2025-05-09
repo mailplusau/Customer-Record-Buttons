@@ -311,6 +311,9 @@ function beforeUserLoad(type, form) {
         } else {
             if (isInArray(userRole, systemAdmin)) {
                 form.addButton('custpage_send_email', 'Send Email', getButtonScript('customer_send_email', 'null', customerRecordId));
+                if (userRole == 3) {
+                    form.addButton('custpage_send_email', 'ShipMate Access', getButtonScript('customer_shipmate_access', 'null', customerRecordId));
+                }
             }
             if ((isInArray(userRole, salesRoles) || isInArray(userRole, salesAdmin) || isInArray(userRole, systemAdmin) || isInArray(userRole, leadGenTeam)) && status != 59 && status != 22 && status != 64) {
                 form.addButton('custpage_mark_duplicate_lost', 'Mark Lost - Duplicate Lead', getButtonScript('customer_mark_duplicate_lost', 'null', customerRecordId));
@@ -560,6 +563,11 @@ function getButtonScript(type, salesrecordid, customerrecordid) {
     if (type == 'reassignsalesrecord') {
         var url = nlapiResolveURL('SUITELET', 'customscript_sl2_create_sales_record', 'customdeploy1');
         url += '&callCenter=T&customerId=' + customerrecordid + '&salesRecordId=' + salesrecordid;
+        rtnScript = "window.location='" + url + "'";
+    }
+    if (type == 'customer_shipmate_access') {
+        var url = nlapiResolveURL('SUITELET', 'customscript_sl2_shipmate_access', 'customdeploy1');
+        url += '&customerId=' + customerrecordid;
         rtnScript = "window.location='" + url + "'";
     }
 
