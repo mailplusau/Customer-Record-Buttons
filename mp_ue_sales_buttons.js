@@ -319,6 +319,8 @@ function beforeUserLoad(type, form) {
                 form.addButton('custpage_mark_duplicate_lost', 'Mark Lost - Duplicate Lead', getButtonScript('customer_mark_duplicate_lost', 'null', customerRecordId));
             }
 
+            form.addButton('custpage_lead_cancellation', 'Cancel Lead', getButtonScript('lead_cancellation', null, customerRecordId));
+
             // if user is a BDM or Sales Admin
             if (isInArray(userRole, salesRoles) || isInArray(userRole, salesAdmin)) {
                 // alert(23);
@@ -630,6 +632,11 @@ function getButtonScript(type, salesrecordid, customerrecordid) {
     }
 
     if (type == 'customer_cancellation') {
+        var url = nlapiResolveURL('SUITELET', 'customscript_sl2_customer_cancellation', 'customdeploy1');
+        url += '&custid=' + customerrecordid;
+        rtnScript = "window.location='" + url + "'";
+    }
+    if (type == 'lead_cancellation') {
         var url = nlapiResolveURL('SUITELET', 'customscript_sl2_customer_cancellation', 'customdeploy1');
         url += '&custid=' + customerrecordid;
         rtnScript = "window.location='" + url + "'";
