@@ -61,6 +61,7 @@ function beforeUserLoad(type, form) {
         var customerRecordId = nlapiGetRecordId();
         var customerRecord = nlapiLoadRecord(nlapiGetRecordType(), customerRecordId);
         var status = nlapiGetFieldValue('entitystatus');
+        var syncedWithProspectPlus = nlapiGetFieldValue('custentity_lead_synced_to_firebase');
         var maapnumber = nlapiGetFieldValue('custentity_maap_bankacctno');
         var startDate = nlapiGetFieldValue('startdate');
         var userRole = parseInt(nlapiGetRole());
@@ -85,7 +86,9 @@ function beforeUserLoad(type, form) {
             }
             form.addButton('custpage_update_customer', 'Update Customer', getButtonScript('update_customer', 'null', customerRecordId));
 
-
+            if (syncedWithProspectPlus == 1) {
+                form.addButton('custpage_sync_from_prospectplus', 'Sync from ProspectPlus', getButtonScript('sync_from_prospectplus', 'null', customerRecordId));
+            }
 
             //any SalesRole can obtain a referral
             if (isInArray(userRole, salesRoles)) {
@@ -320,6 +323,10 @@ function beforeUserLoad(type, form) {
             }
 
             form.addButton('custpage_lead_cancellation', 'Cancel Lead', getButtonScript('lead_cancellation', null, customerRecordId));
+
+            if (syncedWithProspectPlus == 1) {
+                form.addButton('custpage_sync_from_prospectplus', 'Sync from ProspectPlus', getButtonScript('sync_from_prospectplus', 'null', customerRecordId));
+            }
 
             // if user is a BDM or Sales Admin
             if (isInArray(userRole, salesRoles) || isInArray(userRole, salesAdmin)) {
@@ -656,6 +663,12 @@ function getButtonScript(type, salesrecordid, customerrecordid) {
     if (type == 'customer_mark_duplicate_lost') {
         var url = nlapiResolveURL('SUITELET', 'customscript_sl2_lost_duplicate_lead', 'customdeploy1');
         url += '&customerInternalId=' + customerrecordid;
+        rtnScript = "window.location='" + url + "'";
+    }
+    //Button: Sync from ProspectPlus
+    if (type == 'sync_from_prospectplus') {
+        var url = nlapiResolveURL('SUITELET', 'customscript_sl2_cust_rec_sync_from_pp', 'customdeploy1');
+        url += '&customerInternalId=' + customerrecordid + '&sales_record_id=' + salesrecordid;
         rtnScript = "window.location='" + url + "'";
     }
     //Button: Sync RTA Display Name
