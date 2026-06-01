@@ -85,6 +85,10 @@ function beforeUserLoad(type, form) {
 		var companyName = nlapiGetFieldValue("companyname");
 		var parentCompanyID = nlapiGetFieldValue("parent");
 		var syncedWithLPOPlus = nlapiGetFieldValue("custentity_lpo_synced_with_db");
+		var syncedWithProspectPlus = nlapiGetFieldValue(
+			"custentity_lead_synced_to_firebase"
+		);
+		var syncedWithLocalMile = nlapiGetFieldValue("custentity_localmile_sync");
 		var partnerId = nlapiGetFieldValue("partner");
 		var lpoParentAccount = nlapiGetFieldValue("custentity_lpo_parent_account");
 		var salesRecordID = null;
@@ -543,6 +547,14 @@ function beforeUserLoad(type, form) {
 							"null",
 							customerRecordId
 						)
+					);
+				}
+
+				if (syncedWithLocalMile == 1 || syncedWithLocalMile == "1") {
+					form.addButton(
+						"custpage_resync_localmile",
+						"Resync with LocalMile",
+						getButtonScript("resync_localmile", "null", customerRecordId)
 					);
 				}
 			}
@@ -1137,6 +1149,15 @@ function getButtonScript(type, salesrecordid, customerrecordid) {
 		var url = nlapiResolveURL(
 			"SUITELET",
 			"customscript_sl2_resync_lpo_sub_customer",
+			"customdeploy1"
+		);
+		url += "&customerInternalId=" + customerrecordid;
+		rtnScript = "window.location='" + url + "'";
+	}
+	if (type == "resync_localmile") {
+		var url = nlapiResolveURL(
+			"SUITELET",
+			"customscript_sl2_lmp_resync_lead",
 			"customdeploy1"
 		);
 		url += "&customerInternalId=" + customerrecordid;
