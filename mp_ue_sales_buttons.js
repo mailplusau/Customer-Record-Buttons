@@ -1116,6 +1116,11 @@ function getButtonScript(type, salesrecordid, customerrecordid) {
     );
     url += "&custid=" + customerrecordid;
     rtnScript = "window.location='" + url + "'";
+
+    //var url =
+    //   "https://prospectplus.com.au/customer-request/" + customerrecordid;
+    // rtnScript = "window.location='" + url + "'";
+    //
   }
   if (type == "lead_cancellation") {
     var url = nlapiResolveURL(
@@ -1276,6 +1281,11 @@ function getButtonScript(type, salesrecordid, customerrecordid) {
     );
     url += "&custid=" + customerrecordid;
     rtnScript = "window.location='" + url + "'";
+
+    //var url =
+    //   "https://prospectplus.com.au/customer-request/" + customerrecordid;
+    // rtnScript = "window.location='" + url + "'";
+    //
   }
   if (type == "customer_prod_pricing") {
     var url = nlapiResolveURL(
