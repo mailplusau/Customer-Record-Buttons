@@ -1109,18 +1109,17 @@ function getButtonScript(type, salesrecordid, customerrecordid) {
   }
 
   if (type == "customer_cancellation") {
-    var url = nlapiResolveURL(
-      "SUITELET",
-      "customscript_sl2_customer_cancellation",
-      "customdeploy1"
-    );
-    url += "&custid=" + customerrecordid;
-    rtnScript = "window.location='" + url + "'";
-
-    //var url =
-    //   "https://prospectplus.com.au/customer-request/" + customerrecordid;
+    // var url = nlapiResolveURL(
+    //   "SUITELET",
+    //   "customscript_sl2_customer_cancellation",
+    //   "customdeploy1"
+    // );
+    // url += "&custid=" + customerrecordid;
     // rtnScript = "window.location='" + url + "'";
-    //
+
+    var url =
+      "https://prospectplus.com.au/customer-request/" + customerrecordid;
+    rtnScript = "window.location='" + url + "'";
   }
   if (type == "lead_cancellation") {
     var url = nlapiResolveURL(
@@ -1274,18 +1273,21 @@ function getButtonScript(type, salesrecordid, customerrecordid) {
     rtnScript = "window.location='" + url + "'";
   }
   if (type == "customer_change") {
-    var url = nlapiResolveURL(
-      "SUITELET",
-      "customscript_sl2_customer_notification",
-      "customdeploy1"
-    );
-    url += "&custid=" + customerrecordid;
-    rtnScript = "window.location='" + url + "'";
+    // var url = nlapiResolveURL(
+    //   "SUITELET",
+    //   "customscript_sl2_customer_notification",
+    //   "customdeploy1"
+    // );
+    // url += "&custid=" + customerrecordid;
+    // rtnScript = "window.location='" + url + "'";
 
     //var url =
     //   "https://prospectplus.com.au/customer-request/" + customerrecordid;
     // rtnScript = "window.location='" + url + "'";
     //
+    var url =
+      "https://prospectplus.com.au/customer-request/" + customerrecordid;
+    rtnScript = "window.location='" + url + "'";
   }
   if (type == "customer_prod_pricing") {
     var url = nlapiResolveURL(
